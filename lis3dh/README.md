@@ -8,6 +8,8 @@ Datasheet: STMicro LIS3DH (DocID17530 Rev 2) *"MEMS digital output motion sensor
 
 App Note:  AN3308 (DocID18198 Rev 3) *"LIS3DH: MEMS digital output motion sensor ultra-low-power high-performance 3-axis “nano” accelerometer"*
 
+Photo of the [physical configuration] (https://github.com/foldedtoad/more_py_please/blob/master/lis3dh/PCA10040_LIS3DH.JPG)
+
 **NOTE:** The STM LIS2DH device should work without modifications. There may be other devices in the LISxyy series which work as well.
 
 The accelerometer board is available from Adafruit *LIS3DH Triple-Axis Accelerometer* (PRODUCT ID: 2809)
