@@ -1,13 +1,5 @@
 #
 # LIS3DH accelerometre driver for nRF5x 
-# Tested on Nordic PCA10040 dev board (nRF52832) with Micropython release 1.10.0
-#
-# The accelerometer board was procured from 
-# Adafruit LIS3DH Triple-Axis Accelerometer (PRODUCT ID: 2809)
-# which was carried on a protoboard 
-# Adafruit Proto Shield for Arduino (PRODUCT ID: 2077).
-# The PCA10040 board follows the Arduino shield form-factor, so 
-# the protoboard plugs into the PCA10040.
 #
 from machine import I2C, Pin
 import ustruct
@@ -17,8 +9,6 @@ BUS0 = 0
 BUS1 = 1
 
 # Register and bitfield defs
-# Datasheet: LIS3DH (DocID17530 Rev 2)
-# App Note:  AN3308 (DocID18198 Rev 1)
 #
 REG__WHO_AM_I  = 0x0F
 REG__CTRL_REG1 = 0x20
