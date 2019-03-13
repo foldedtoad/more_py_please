@@ -1,4 +1,6 @@
 
+##LIS2DH Accelerometer Driver using FIFO mode
+
 LIS3DH accelerometer driver for Nordic nRF52 series demo boards (PCA100xx) 
 Tested on Nordic PCA10040 dev board (nRF52832) with Micropython release 1.10.0
 
@@ -11,6 +13,7 @@ which was carried on a protoboard Adafruit "Proto Shield for Arduino" (PRODUCT I
 
 The PCA10040 board follows the Arduino shield form-factor, so the protoboard plugs into the PCA10040.
 
+#Wiring
 The accelerometer board is wired to the PCA10040 board though the prototype board.
 The wiring is as follows:
 * Device SCL to protoboard SCL
@@ -21,11 +24,9 @@ The wiring is as follows:
 * Device INT to protoboard pin 1 (analog in)
 
 
-Driver configuration parameters --
+#Configuration parameters --
 * BUS[0|1] selector for I2C bus controller
 * Pin:  SCL pin -- PCA10040's P0.27 coresponds to Arduino SCL shield pin
 * Pin:  SDA pin -- PCA10040's P0.26 coresponds to Arduino SDA shield pin
 * addr: Slave address -- (0x30 >> 1) == 0x18 == 24 (default)
 * irq:  IRQ pin -- default is PCA10040's P0.03 pin
-
-
