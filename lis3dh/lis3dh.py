@@ -116,7 +116,11 @@ class LIS3DH:
     fifo_count = (self.i2c.readfrom_mem(self.addr, REG__FIFO_SRC, True)[0]) & FF_FSS_MASK
     for i in range(fifo_count):
       vector = self.read_vector()
-      print(vector)   # NOTE: do something more interesting with this vector
+      if i == 0:
+        # FIXME  first vector from FIFO is always garbage...why
+        continue 
+      # NOTE: do something more interesting with this vector
+      print(i, vector)   
     self.fifo_toggle()
 
   def device_init(self):
