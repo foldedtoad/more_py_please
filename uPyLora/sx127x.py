@@ -87,9 +87,10 @@ class SX127x:
         while(init_try and re_try < 5):
             version = self.readRegister(REG_VERSION)
             re_try = re_try + 1
-            if(version != 0):
+            if (version != 0):
                 init_try = False;
         if version != 0x12:
+            print("version 0x{:02X}".format(version))  # robin
             raise Exception('Invalid version.')
 
         # put in LoRa and sleep mode

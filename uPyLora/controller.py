@@ -109,16 +109,16 @@ class Controller:
     def blink_led(self, times = 1, on_seconds = 0.1, off_seconds = 0.1):
         for i in range(times):
             self.led_on(True)
-            sleep_ms(on_seconds * 1000)
+            sleep_ms(int(on_seconds * 1000))
             self.led_on(False)
-            sleep_ms(off_seconds * 1000)
+            sleep_ms(int(off_seconds * 1000))
 
 
     def reset_pin(self, pin, duration_low = 0.05, duration_high = 0.05):
         pin.low()
-        sleep_ms(duration_low * 1000)
+        sleep_ms(int(duration_low * 1000))
         pin.high()
-        sleep_ms(duration_high * 1000)
+        sleep_ms(int(duration_high * 1000))
 
 
     def __exit__(self):
