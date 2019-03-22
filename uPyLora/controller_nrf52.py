@@ -3,17 +3,17 @@ from controller import Controller
 import board
 
 
-class nRF52Controller(Controller):
+class NRF52Controller(Controller):
 
     # LoRa config for Nordic PCA10040 and PCA10056 boards
-    PIN_ID_FOR_LORA_RESET = 14  # FIXME
+    PIN_ID_FOR_LORA_RESET = 20
 
-    PIN_ID_FOR_LORA_SS = 22  # robin
-    PIN_ID_SCK = 25          # robin
-    PIN_ID_MOSI = 23         # robin
-    PIN_ID_MISO = 24         # robin
+    PIN_ID_FOR_LORA_SS = 22
+    PIN_ID_SCK = 25
+    PIN_ID_MOSI = 23
+    PIN_ID_MISO = 24
 
-    PIN_ID_FOR_LORA_DIO0 = 26    # FIXME
+    PIN_ID_FOR_LORA_DIO0 = 13
     PIN_ID_FOR_LORA_DIO1 = None
     PIN_ID_FOR_LORA_DIO2 = None
     PIN_ID_FOR_LORA_DIO3 = None
@@ -24,12 +24,12 @@ class nRF52Controller(Controller):
 
     # nRF52 config
     ON_BOARD_LED_PIN_NO = 20          # LED-4
-    ON_BOARD_LED_HIGH_IS_ON = False   # FIXME
+    ON_BOARD_LED_HIGH_IS_ON = False
 
 
     GPIO_PINS = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
-                 12, 13, 14, 15, 16, 17, 18, 19, 21, 22,
-                 23, 25, 26, 27)                            # FIXME
+                 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 
+                 22, 23, 24, 25, 26, 27, 28, 29, 30, 31)
 
 
     def __init__(self,

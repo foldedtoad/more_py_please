@@ -14,5 +14,5 @@ def get_millis():
 
 def get_nodename():
     uuid = ubinascii.hexlify(machine.unique_id()).decode()
-    node_name = "ESP_" + uuid
+    node_name = "NRF_" + uuid
     return node_name

@@ -1,4 +1,4 @@
-from time import sleep
+#from time import sleep
 import gc
 
 PA_OUTPUT_RFO_PIN = 0
@@ -65,7 +65,7 @@ class SX127x:
 
     def __init__(self,
                  name = 'SX127x',
-                 parameters = {'frequency': 868E6, 'tx_power_level': 2, 'signal_bandwidth': 125E3,
+                 parameters = {'frequency': 915E6, 'tx_power_level': 2, 'signal_bandwidth': 125E3,
                                'spreading_factor': 8, 'coding_rate': 5, 'preamble_length': 8,
                                'implicitHeader': False, 'sync_word': 0x12, 'enable_CRC': False},
                  onReceive = None):
@@ -165,18 +165,18 @@ class SX127x:
         return size
 
 
-    def aquire_lock(self, lock = False):
+    def acquire_lock(self, lock = False):
         self._lock = False
 
 
     def println(self, string, implicitHeader = False):
-        self.aquire_lock(True)  # wait until RX_Done, lock and begin writing.
+        self.acquire_lock(True)  # wait until RX_Done, lock and begin writing.
 
         self.beginPacket(implicitHeader)
         self.write(string.encode())
         self.endPacket()
 
-        self.aquire_lock(False) # unlock when done writing
+        self.acquire_lock(False) # unlock when done writing
 
 
     def getIrqFlags(self):
@@ -311,7 +311,7 @@ class SX127x:
 
 
     def handleOnReceive(self, event_source):
-        self.aquire_lock(True)              # lock until TX_Done
+        self.acquire_lock(True)              # lock until TX_Done
         irqFlags = self.getIrqFlags()
 
         if (irqFlags == IRQ_RX_DONE_MASK):  # RX_DONE only, irqFlags should be 0x40
@@ -326,17 +326,17 @@ class SX127x:
             self.writeRegister(REG_FIFO_ADDR_PTR, FifoRxBaseAddr)
             self.writeRegister(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_RX_SINGLE)
 
-        self.aquire_lock(False)             # unlock in any case.
+        self.acquire_lock(False)             # unlock in any case.
         self.collect_garbage()
         return True
 
-#        self.aquire_lock(True)              # lock until TX_Done
+#        self.acquire_lock(True)              # lock until TX_Done
 #
 #        irqFlags = self.readRegister(REG_IRQ_FLAGS) # should be 0x50
 #        self.writeRegister(REG_IRQ_FLAGS, irqFlags)
 #
 #        if (irqFlags & IRQ_RX_DONE_MASK) == 0: # check `RxDone`
-#            self.aquire_lock(False)
+#            self.acquire_lock(False)
 #            return # `RxDone` is not set
 #
 #        # check `PayloadCrcError` bit
@@ -348,11 +348,11 @@ class SX127x:
 #        if self._onReceive:
 #            payload = self.read_payload()
 #            print(payload)
-#            self.aquire_lock(False)     # unlock when done reading
+#            self.acquire_lock(False)     # unlock when done reading
 #
 #            self._onReceive(self, payload)
 #
-#        self.aquire_lock(False)             # unlock in any case.
+#        self.acquire_lock(False)             # unlock in any case.
 
 
     def receivedPacket(self, size = 0):
