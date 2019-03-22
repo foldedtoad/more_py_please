@@ -74,11 +74,6 @@ class NRF52Controller(Controller):
 
         try:
             spi = SPI(0)
-
-            #spi = SPI(baudrate = 1320000, polarity = 0, phase = 0, bits = 8, firstbit = SPI.MSB,
-            #          sck  = Pin(self.PIN_ID_SCK,  Pin.OUT, Pin.PULL_DOWN),
-            #          mosi = Pin(self.PIN_ID_MOSI, Pin.OUT, Pin.PULL_UP),
-            #          miso = Pin(self.PIN_ID_MISO, Pin.IN,  Pin.PULL_UP))
             #spi.init()
 
         except Exception as e:
@@ -99,16 +94,12 @@ class NRF52Controller(Controller):
             def transfer(pin_ss, address, value = 0x00):
                 response = bytearray(1)
 
-                #print("spi transfer: pin_ss", pin_ss  # robin
-
                 pin_ss.low()
 
                 spi.write(bytes([address]))
                 spi.write_readinto(bytes([value]), response)
 
                 pin_ss.high()
-
-                print("spi transfer: address 0x{:02X} ".format(address)) # robin
 
                 return response
 

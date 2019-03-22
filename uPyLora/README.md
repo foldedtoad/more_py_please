@@ -8,6 +8,10 @@ nRF52 using MicroPython meets LoRa.
 # Hardware
 * [Dragino Arduino Shield v1.4 915Mhz](http://www.dragino.com/products/module/item/102-lora-shield.html) board.
 
+## Note ## 
+On Dragino board, for [SV2 SV3 SV4], move jumper to left side (e.g. not the default settings).
+This will enable SPI operations though [D13 D12 D11].  
+
 # Revision
 * 0.1 first commit
 

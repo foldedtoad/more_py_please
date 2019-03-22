@@ -90,7 +90,6 @@ class SX127x:
             if (version != 0):
                 init_try = False;
         if version != 0x12:
-            print("version 0x{:02X}".format(version))  # robin
             raise Exception('Invalid version.')
 
         # put in LoRa and sleep mode
