@@ -14,10 +14,12 @@ This will enable SPI operations though arduino-defined [D11 D12 D13] pins (PCA10
 
 ## PCA10040 board Notes ##
 On the PCA10040 or PCA10056 board, you will need to defeat the default Button and LED configuration. The simplest and surest way is to jumper the `SHIELD_DETECT` pin on the J5 header (ICSP) to a `GND` pin (see the PCA10040 schematic for details). This was necessary because the pins on J5 of the PCA10040 board were too long and didn't match many of the arduino shield boards.   The J5 pins were also trimmed (clipped) a bit to keep them from shorting on some arduino shield boards.  
-In doing is, you will make the GPIO pins, which were used for Button/LED support, available for general use.  
-If you want to re-establish Button/LED support, then you will have to use the IO-Extender (U7) to issues I2C commands.  The IO-Extender will respond to an I2C scan as device address [32].
+
+In doing the above wiring, you will make the GPIO pins used for Button/LED support available for general use.  
+If you wish to re-establish Button/LED support, then you will need to use the IO-Extender (U7) to issues I2C commands to access the Button/LEDs.  The IO-Extender will respond to an I2C bus scan as device address [32].
+
 ### Suggestion ###   
-Use wire-wrap technique to wire `SHIELD_DETECT` to one of the many GND pins. This allows you to easily undo the connection later. Wire-wrapping is a good method to form semi-permement connections on the PCA10040 board.
+Use wire-wrap technique to wire `SHIELD_DETECT` to one of the many GND pins on the PCA10040 board. This allows you to easily undo the connection later. Wire-wrapping is a good method to form semi-permement connections on the PCA10040 board.
 
 ## General Notes ##
 There are a couple of Saleae Logic traces included. They show the initialization sequence and the send-runtime sequence. The free viewer is available [here](https://www.saleae.com/downloads) 
@@ -30,6 +32,7 @@ The following changes were made to the default *mpconfigport.h* file
 #define MICROPY_PY_UCTYPES          (1)
 ```
     
+### SPI Configuration ###
 SPI and GPIO Config for Nordic PCA10040 and PCA10056 boards
 ```
 SPI SS        P0.22
@@ -39,8 +42,10 @@ SPK MISO      P0.24
 LORA RESET    P0.20
 LORA DIO0     P0.13
 ```
-### note ###
+
 SPI controller 0 is configured. 
+
+A SPI bus baudrate of 1MHz is configured.
 
 # Revision
 * 0.1 first commit
