@@ -24,10 +24,7 @@ Use wire-wrap technique to wire `SHIELD_DETECT` to one of the many GND pins on t
 ### PCA10040 Schematics ###
 For PCA10040 schematic, download the zip file [here](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52-DK/Download#infotab), unzip it, and navigate to "*PCA10040-nRF52832 Bluetooth Smart,ANT,2.4GHz RF Development Board 1_2_1/Schematic_Layout pdf files*" directory: the schematic pdf file should be there.
 
-## General Notes ##
-There are a couple of Saleae Logic traces included. They show the initialization sequence and the send-runtime sequence. The free viewer is available [here](https://www.saleae.com/downloads) 
-
-## Firmware Notes ##
+# Firmware Notes #
 The following changes were made to the default *mpconfigport.h* file
 ```
 #define MICROPY_STACK_CHECK         (0)
@@ -49,6 +46,10 @@ LORA DIO0     P0.13
 SPI controller 0 is configured. 
 
 A SPI bus baudrate of 1MHz is configured.
+
+# General Notes #
+There are a couple of Saleae Logic traces included. They show the initialization sequence and the send-runtime sequence. The free viewer is available [here](https://www.saleae.com/downloads) 
+
 
 # Revision
 * 0.1 first commit
