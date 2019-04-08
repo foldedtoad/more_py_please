@@ -56,8 +56,11 @@ There are a couple of Saleae Logic traces included. They show the initialization
 
 
 # Testing
-The PCA10040 + MicroPython + uPyLora(this) was tested for both sending and receiving data.  
-The other LoRa system was a RaspberryPi 2B+ with Dragino LoRa HAT, running the RadioHead stack.
+The PCA10040 + Dragino LoRa shield + MicroPython + uPyLora(this) for both sending and receiving data.  
+The other LoRa system was a RaspberryPi 2B+ with Dragino LoRa HAT, running the RadioHead:rf95 stack.  
+The interaction directionalities are -
+* MicroPython (main_tx.py + LoRaSend.py) --> RadioHead (rf95_server)
+* RadioHead (rf95_client) --> MicroPython (main_rx.py + LoRaReceiver.py)
 
 The significant parameters shared between the two systems are --
 * spreading factor: 7
