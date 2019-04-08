@@ -1,5 +1,6 @@
 # uPyLora for nRF52
-nRF52 using MicroPython meets LoRa.
+nRF52 using MicroPython meets LoRa.  
+A short [video](https://www.youtube.com/watch?v=H9I10m0vipk) shows a demo of nRF52 uPyLora.
 
 This port is based on Mauro Riva's [uPyLora](https://github.com/lemariva/uPyLora) for the esp32 platform, which in turn is appears to be based on several other developers' work. As with any active development, it's turtles all the way down. :-) 
 
@@ -39,7 +40,7 @@ SPI and GPIO Config for Nordic PCA10040 and PCA10056 boards
 SPI SS        P0.22
 SPI SCK       P0.25
 SPI MOSI      P0.23
-SPK MISO      P0.24
+SPI MISO      P0.24
 LORA RESET    P0.20
 LORA DIO0     P0.13
 ```
