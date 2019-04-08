@@ -1,10 +1,7 @@
 # uPyLora for nRF52
 nRF52 using MicroPython meets LoRa.
 
-This port is based on Mauro Riva's [uPyLora](https://github.com/lemariva/uPyLora) for the esp32 platform, which in turn is appears to be based on several other developers' work. As with any active development, it's turtles all the way down. :-)
-
-# Setup
-* `LoRaReceiver.py` and `LoraSender.py`: unidirectional communication between the nodes (Note: deploy the `LoRaReceiver.py` on one node and the `LoraSender.py` on another node).  
+This port is based on Mauro Riva's [uPyLora](https://github.com/lemariva/uPyLora) for the esp32 platform, which in turn is appears to be based on several other developers' work. As with any active development, it's turtles all the way down. :-) 
 
 ### Note:
 The LoRaPingPong.py example was removed from this implementation as it depended on the platorm (machine module) providing a usable systick facility: the nRF52 micropython port currently does not have systick support.
@@ -54,8 +51,9 @@ A SPI bus baudrate of 1MHz is configured.
 # General Notes #
 There are a couple of Saleae Logic traces included. They show the initialization sequence and the send-runtime sequence. The free viewer is available [here](https://www.saleae.com/downloads) 
 
+# Testing Setup
+`LoRaReceiver.py` and `LoraSender.py` provide unidirectional communication with another LoRa node. `main_rx.py` and `main_tx.py` are just simple wrappers to invoke `LoRaReceiver.py` and `LoraSender.py` respectively.
 
-# Testing
 The PCA10040 + Dragino LoRa shield + MicroPython + uPyLora(this) for both sending and receiving data.  
 The other LoRa system was a RaspberryPi 2B+ with Dragino LoRa HAT, running the RadioHead:rf95 stack.  
 The interaction directionalities are -
@@ -63,6 +61,7 @@ The interaction directionalities are -
 * RadioHead (rf95_client) --> MicroPython (main_rx.py + LoRaReceiver.py)
 
 The significant parameters shared between the two systems are --
+* frequencey: 915MHz + 0 offset  (North America)
 * spreading factor: 7
 * bandwidth: 125KHz
 * code rate: 4/5
