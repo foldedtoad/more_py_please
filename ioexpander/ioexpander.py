@@ -26,6 +26,27 @@ INTERRUPT_MASK              = 0x45
 INTERRUPT_STATUS            = 0x46
 OUTPUT_PORT_CONFIGURATION   = 0x4F 
 
+EXP_PIN_0  = (0)
+EXP_PIN_1  = (1)
+EXP_PIN_2  = (2)
+EXP_PIN_3  = (3)
+EXP_PIN_4  = (4)
+EXP_PIN_5  = (5)
+EXP_PIN_6  = (6)
+EXP_PIN_7  = (7)
+
+BUTTON_1 = EXP_PIN_0
+BUTTON_2 = EXP_PIN_1
+BUTTON_3 = EXP_PIN_2
+BUTTON_4 = EXP_PIN_3
+LED_1    = EXP_PIN_4
+LED_2    = EXP_PIN_5
+LED_3    = EXP_PIN_6
+LED_4    = EXP_PIN_7
+
+LOGIC_0  = 0x00
+LOGIC_1  = 0x01
+
 class PCAL6408A:
 
   def __init__(self, i2c, addr=32, irq=17):
@@ -37,10 +58,10 @@ class PCAL6408A:
     print("start ioexpander")
 
     # Do configuration: # pins[0-3] input, pins[4-7] input
-    value = 0xF0
+    value = 0x0F
     self.i2c.writeto_mem(self.addr, CONFIGURATION, bytearray((value,)))
 
-    value = 0x0F     # note: logic inversion
+    value = 0xF0     # note: logic inversion
     self.i2c.writeto_mem(self.addr, INTERRUPT_MASK, bytearray((value,)))
 
   def stop(self):
@@ -52,6 +73,16 @@ class PCAL6408A:
 
     value = 0xFF
     self.i2c.writeto_mem(self.addr, CONFIGURATION, bytearray((value,)))
+
+  def output(self, pin, state):
+    value = self.i2c.readfrom_mem(self.addr, OUTPUT, True)[0]
+    #print("read value:  {:08b}".format(value))
+    if (state == LOGIC_1):
+      value &= ~(1 << pin)
+    else:
+      value |= (1 << pin) 
+    self.i2c.writeto_mem(self.addr, OUTPUT, bytearray((value,)))
+    #print("write value: {:08b}".format(value))
 
   def events_callback(self, pin_obj): 
     if (pin_obj.pin() == self.irq):
@@ -72,5 +103,11 @@ if __name__ == '__main__':
   ioexp = PCAL6408A( I2C(BUS1, Pin(27), Pin(26)), addr=SLAVE_ADDR, irq=IRQ_PIN )
 
   ioexp.start()
-  time.sleep_ms(10000)
+
+  for led in range(LED_1, LED_4 + 1 ):
+    ioexp.output( led, LOGIC_1)
+    time.sleep_ms(1000)
+    ioexp.output( led, LOGIC_0)
+    time.sleep_ms(1000)
+
   ioexp.stop()
