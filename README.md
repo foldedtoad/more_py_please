@@ -8,6 +8,7 @@ This is very handy when coding in a coffee shop venue, as I often do: just a sma
 In general, most of the code was developed without depending on the SoftDevice support. As far as I know, there is nothing to prevent the inclusion of the SoftDevice if you have some BLE-requirement.  Excluding the SoftDevice frees a fair amount of flash memory.
 
 Most of the code is purposefully kept simple (KISS method) to illustrate some basic technology or technique.
+Its assumed that these building-blocks could be stitched together into a more complex application.
 
 ## USART Issues
 The UART support for the nRF52 port appears to have some flowcontrol problems. When using REPL-base access (direct or BLE-based) it will often hang the system.  I have not investigated this in detail (yet).  During my initial investigation I found that the USB-serial adapters were presenting data to the nRF52 in 256-byte packets, but often the first packet was dropped. See the Ellisys USB trace data below. The MicroPython stack on the nRF52 only sees Frame-6.
@@ -37,6 +38,7 @@ Leftover Capture Data: 64656620746573745f62756666657228293a0a2020202022…
 00f0 20 3d 20 74 65 73 74 5f 62 75 66 66 65 72 28 29 = test_buffer()
 0100 0a 69 66 20 6f 75 74 70 75 74 20 69 73 20 4e 6f .if output is No
 0110 6e 65 3a 0a 20 20 20 70 72 69 6e 74 28 22 4e 6f ne:. print("No
+
 No. Time Source Destination Protocol Length Info
 2 0.009307 64.24.7 host USB 32 URB_INTERRUPT in
 (submitted)
@@ -44,6 +46,7 @@ Frame 2: 32 bytes on wire (256 bits), 32 bytes captured (256 bits) on interface 
 USB URB
 0000 00 01 20 00 08 00 00 00 00 50 00 e0 00 00 00 00 .. ......P......
 0010 64 0c d4 01 00 00 00 00 00 00 40 14 02 18 87 03 d.........@.....
+
 No. Time Source Destination Protocol Length Info
 3 0.010050 80.63.1 host USB 40 URB_INTERRUPT in
 (completed)
@@ -53,6 +56,7 @@ Leftover Capture Data: 0000000000000000
 0000 00 01 20 01 08 00 00 00 00 00 00 00 00 00 00 00 .. .............
 0010 4d 0c d4 01 00 00 00 00 00 00 50 14 01 3f 81 03 M.........P..?..
 0020 00 00 00 00 00 00 00 00 ........
+
 No. Time Source Destination Protocol Length Info
 4 0.010125 80.63.1 host USB 32 URB_INTERRUPT in
 (submitted)
@@ -60,6 +64,7 @@ Frame 4: 32 bytes on wire (256 bits), 32 bytes captured (256 bits) on interface 
 USB URB
 0000 00 01 20 00 08 00 00 00 00 00 00 00 00 00 00 00 .. .............
 0010 65 0c d4 01 00 00 00 00 00 00 50 14 01 3f 81 03 e.........P..?..
+
 No. Time Source Destination Protocol Length Info
 5 0.014606 64.24.4 host USB 32 URB_BULK out
 (submitted)
@@ -67,6 +72,7 @@ Frame 5: 32 bytes on wire (256 bits), 32 bytes captured (256 bits) on interface 
 USB URB
 0000 00 01 20 00 1c 00 00 00 00 00 00 00 00 00 00 00 .. .............
 0010 67 0c d4 01 00 00 00 00 00 00 40 14 02 18 04 02 g.........@.....
+
 No. Time Source Destination Protocol Length Info
 6 0.014694 64.24.4 host USB 60 URB_BULK out
 (completed)
