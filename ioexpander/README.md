@@ -18,7 +18,9 @@ The ./nrf/boards/pca10040/mpconfigboard.h file needs the following configuration
 ```
 #define MICROPY_HW_HAS_LED          (0)  // set to 0 if using ioexpander
 ```
+Of course, you will need to rebuild MicroPython to pick-up this config change.
 
+## Testing Output
 The console output will look like this --
 ```
 start ioexpander
