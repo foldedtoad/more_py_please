@@ -1,6 +1,8 @@
 #
 # IO-Expender (PCAL6408A) driver for nRF5x (PCA10028, PCA10040, PCA10056 boards)
 # See PCAL6408A datasheet for programming details
+# 
+# Note: only single button press/release are properly handed: no chording.
 #
 from machine import I2C, Pin
 import time
@@ -8,10 +10,8 @@ import time
 BUS0 = 0
 BUS1 = 1
 
-# Configuration parameters
-#
-SLAVE_ADDR      = 32
-IRQ_PIN         = 17
+SLAVE_ADDR = 32
+IRQ_PIN    = 17
 
 INPUT                       = 0x00
 OUTPUT                      = 0x01
@@ -47,6 +47,21 @@ LED_4    = EXP_PIN_7
 LOGIC_0  = 0x00
 LOGIC_1  = 0x01
 
+SWITCH_1_PIN = 0b1110
+SWITCH_2_PIN = 0b1101
+SWITCH_3_PIN = 0b1011
+SWITCH_4_PIN = 0b0111
+
+def switch_name(pins):
+  pins = (pins & 0b1111)
+  return {
+        SWITCH_1_PIN: "Switch 1 pressed",
+        SWITCH_2_PIN: "Switch 2 pressed",
+        SWITCH_3_PIN: "Switch 3 pressed",
+        SWITCH_4_PIN: "Switch 4 pressed"
+}.get(pins,           "         released")
+
+
 class PCAL6408A:
 
   def __init__(self, i2c, addr=32, irq=17):
@@ -64,8 +79,11 @@ class PCAL6408A:
     value = 0xF0     # note: logic inversion
     self.i2c.writeto_mem(self.addr, INTERRUPT_MASK, bytearray((value,)))
 
+    value = 0xF0
+    self.i2c.writeto_mem(self.addr, INPUT_LATCH, bytearray((value,)))
+
   def stop(self):
-    print("stop ioexpander")
+    print("stop  ioexpander")
 
     # Do reset:  set regs back to POR value
     value = 0xFF 
@@ -74,40 +92,48 @@ class PCAL6408A:
     value = 0xFF
     self.i2c.writeto_mem(self.addr, CONFIGURATION, bytearray((value,)))
 
+  def input(self):
+    return self.i2c.readfrom_mem(self.addr, INPUT, True)[0]
+
   def output(self, pin, state):
     value = self.i2c.readfrom_mem(self.addr, OUTPUT, True)[0]
-    #print("read value:  {:08b}".format(value))
-    if (state == LOGIC_1):
-      value &= ~(1 << pin)
-    else:
-      value |= (1 << pin) 
+    if (state == LOGIC_1): value &= ~(1 << pin)
+    else: value |= (1 << pin) 
     self.i2c.writeto_mem(self.addr, OUTPUT, bytearray((value,)))
-    #print("write value: {:08b}".format(value))
 
-  def events_callback(self, pin_obj): 
-    if (pin_obj.pin() == self.irq):
-      print("ioexp: irq")
+  def interrupt_status(self):
+    return self.i2c.readfrom_mem(self.addr, INTERRUPT_STATUS, True)[0]
+
+  def events_callback(self, pin_obj):
+    if pin_obj.pin() == self.irq:
+      pins = self.input()
+      switch = switch_name(pins)
+      print("{}".format(switch))
 
   def set_events_callback(self):
-    Pin(self.irq).irq(self.events_callback, trigger=Pin.IRQ_FALLING)
+    Pin(self.irq).irq(self.events_callback, trigger=(Pin.IRQ_FALLING))
 
 
 # BUS[0|1] selector for I2C bus controller
 # Pin:  SCL pin -- PCA10040's P0.27 coresponds to Arduino SCL shield pin
 # Pin:  SDA pin -- PCA10040's P0.26 coresponds to Arduino SDA shield pin
 # addr: Slave address -- (0x40 >> 1) == 0x20 == 32 (default)
-# irq:  IRQ pin -- default is PCA10040's P0.017 pin
-#d
+# irq:  IRQ pin -- default is PCA10040's P0.17 pin  (P0.21 on PCA10028)
+#
 if __name__ == '__main__':
 
-  ioexp = PCAL6408A( I2C(BUS1, Pin(27), Pin(26)), addr=SLAVE_ADDR, irq=IRQ_PIN )
-
+  ioexp = PCAL6408A(I2C(BUS1, Pin(27), Pin(26)), addr=SLAVE_ADDR, irq=IRQ_PIN)
   ioexp.start()
+  ioexp.set_events_callback()
 
+  print("LEDs:")
   for led in range(LED_1, LED_4 + 1 ):
     ioexp.output( led, LOGIC_1)
     time.sleep_ms(1000)
     ioexp.output( led, LOGIC_0)
     time.sleep_ms(1000)
+
+  print("Switches: press buttons")
+  time.sleep_ms(30000)  # run for 30 seconds
 
   ioexp.stop()
