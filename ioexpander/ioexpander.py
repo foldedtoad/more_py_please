@@ -82,6 +82,9 @@ class PCAL6408A:
     value = 0xF0
     self.i2c.writeto_mem(self.addr, INPUT_LATCH, bytearray((value,)))
 
+    # read input to clear any residual interrupts
+    self.input()
+
   def stop(self):
     print("stop  ioexpander")
 
@@ -100,9 +103,6 @@ class PCAL6408A:
     if (state == LOGIC_1): value &= ~(1 << pin)
     else: value |= (1 << pin) 
     self.i2c.writeto_mem(self.addr, OUTPUT, bytearray((value,)))
-
-  def interrupt_status(self):
-    return self.i2c.readfrom_mem(self.addr, INTERRUPT_STATUS, True)[0]
 
   def events_callback(self, pin_obj):
     if pin_obj.pin() == self.irq:
