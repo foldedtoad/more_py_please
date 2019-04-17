@@ -1,5 +1,5 @@
 
-# LIS3DH Accelerometer Driver using FIFO Mode
+# LIS3DH Accelerometer Driver using FIFO Mode 
 
 STMicro LIS3DH accelerometer driver for Nordic nRF52 series demo boards (PCA100xx) 
 Tested on Nordic PCA10040 dev board (nRF52832) with Micropython release 1.10.0

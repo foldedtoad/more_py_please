@@ -18,7 +18,7 @@ This will enable SPI operations though arduino-defined [D11 D12 D13] pins (PCA10
 On the PCA10040 or PCA10056 board, you will need to defeat the default Button and LED configuration. The simplest and surest way is to jumper the `SHIELD_DETECT` pin on the J5 header (ICSP) to a `GND` pin (see the PCA10040 schematic for details). This was necessary because the pins on J5 of the PCA10040 board were too long and didn't match many of the arduino shield boards. The J5 pins were also trimmed (clipped) a bit to keep them from shorting on some arduino shield boards.  
 
 In doing the above wiring, the GPIO pins (by default assigned for Button/LED support) will be freed for general use.  
-If you wish to re-establish Button/LED support, then you will need to use the IO-Extender (U7) to issues I2C commands to access the Button/LEDs.  The IO-Extender will respond to an I2C bus scan as device address [32]. This support was not provided in this project.
+If you wish to re-establish Button/LED support, then you will need to use the IO-Expander (U7) to issues I2C commands to access the Button/LEDs.  The IO-Expander will respond to an I2C bus scan as device address [32]. This support was not provided in this project.  See  [ioexpander](https://github.com/foldedtoad/more_py_please/tree/master/ioexpander) for starting point for Button/LED support.
 
 ### Suggestion ###   
 Use wire-wrap technique to wire `SHIELD_DETECT` to one of the many GND pins on the PCA10040 board. This allows you to easily undo the connection later. Wire-wrapping is a good method to form semi-permement connections on the PCA10040 board.
