@@ -18,3 +18,24 @@ The ./nrf/boards/pca10040/mpconfigboard.h file needs the following configuration
 ```
 #define MICROPY_HW_HAS_LED          (0)  // set to 0 if using ioexpander
 ```
+
+The console output will look like this --
+```
+start ioexpander
+Switches: press buttons
+Switch 3 pressed
+         released
+Switch 3 pressed
+         released
+Switch 1 pressed
+         released
+Switch 2 pressed
+         released
+Switch 4 pressed
+         released
+Switch 3 pressed
+         released
+stop  ioexpander
+>>> 
+```
+
