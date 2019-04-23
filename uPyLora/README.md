@@ -2,7 +2,7 @@
 nRF52 using MicroPython meets LoRa.  
 A short [video](https://www.youtube.com/watch?v=H9I10m0vipk) shows a demo of nRF52 uPyLora.
 
-This port is based on Mauro Riva's [uPyLora](https://github.com/lemariva/uPyLora) for the esp32 platform, which in turn is appears to be based on several other developers' work. As with any active development, it's turtles all the way down. :-) 
+This port is based on Mauro Riva's [uPyLora](https://github.com/lemariva/uPyLora) for the esp32 platform, which in turn is appears to be based on several other developers' work.  This may be the [original develper](https://github.com/Wei1234c/SX127x_driver_for_MicroPython_on_ESP8266).
 
 ### Note:
 The LoRaPingPong.py example was removed from this implementation as it depended on the platorm (machine module) providing a usable systick facility: the nRF52 micropython port currently does not have systick support.
