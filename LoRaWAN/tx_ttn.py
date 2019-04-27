@@ -1,6 +1,5 @@
-#!/usr/bin/env python3
 import sys
-from time import sleep
+import time 
 from SX127x.LoRa import *
 from SX127x.LoRaArgumentParser import LoRaArgumentParser
 from SX127x.board_config import BOARD
@@ -30,19 +29,20 @@ class LoRaWANsend(LoRa):
         self.write_payload(lorawan.to_raw())
         self.set_mode(MODE.TX)
         while True:
-            sleep(1)
+            sleep_ms(1000)
 
 
 # Init
 devaddr = [0x26, 0x01, 0x11, 0x5F]
 nwskey = [0xC3, 0x24, 0x64, 0x98, 0xDE, 0x56, 0x5D, 0x8C, 0x55, 0x88, 0x7C, 0x05, 0x86, 0xF9, 0x82, 0x26]
 appskey = [0x15, 0xF6, 0xF4, 0xD4, 0x2A, 0x95, 0xB0, 0x97, 0x53, 0x27, 0xB7, 0xC1, 0x45, 0x6E, 0xC5, 0x45]
+
 lora = LoRaWANsend(False)
 
 # Setup
 lora.set_mode(MODE.SLEEP)
 lora.set_dio_mapping([1,0,0,0,0,0])
-lora.set_freq(868.1)
+lora.set_freq(915.0)
 lora.set_pa_config(pa_select=1)
 lora.set_spreading_factor(7)
 lora.set_pa_config(max_power=0x0F, output_power=0x0E)

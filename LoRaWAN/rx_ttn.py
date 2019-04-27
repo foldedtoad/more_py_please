@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-from time import sleep
+import time
 from SX127x.LoRa import *
 from SX127x.LoRaArgumentParser import LoRaArgumentParser
 from SX127x.board_config import BOARD
@@ -37,18 +36,19 @@ class LoRaWANrcv(LoRa):
         self.reset_ptr_rx()
         self.set_mode(MODE.RXCONT)
         while True:
-            sleep(.5)
+            sleep_ms(500)
 
 
 # Init
 nwskey = [0xC3, 0x24, 0x64, 0x98, 0xDE, 0x56, 0x5D, 0x8C, 0x55, 0x88, 0x7C, 0x05, 0x86, 0xF9, 0x82, 0x26]
 appskey = [0x15, 0xF6, 0xF4, 0xD4, 0x2A, 0x95, 0xB0, 0x97, 0x53, 0x27, 0xB7, 0xC1, 0x45, 0x6E, 0xC5, 0x45]
+
 lora = LoRaWANrcv(False)
 
 # Setup
 lora.set_mode(MODE.SLEEP)
 lora.set_dio_mapping([0] * 6)
-lora.set_freq(868.1)
+lora.set_freq(915.0)
 lora.set_pa_config(pa_select=1)
 lora.set_spreading_factor(7)
 lora.set_sync_word(0x34)

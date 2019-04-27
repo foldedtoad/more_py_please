@@ -70,8 +70,6 @@ class SX127x:
                                'implicitHeader': False, 'sync_word': 0x12, 'enable_CRC': False},
                  onReceive = None):
 
-
-
         self.name = name
         self.parameters = parameters
         self._onReceive = onReceive
@@ -270,18 +268,6 @@ class SX127x:
         self.writeRegister(REG_SYNC_WORD, sw)
 
 
-    # def enable_Rx_Done_IRQ(self, enable = True):
-        # if enable:
-            # self.writeRegister(REG_IRQ_FLAGS_MASK, self.readRegister(REG_IRQ_FLAGS_MASK) & ~IRQ_RX_DONE_MASK)
-        # else:
-            # self.writeRegister(REG_IRQ_FLAGS_MASK, self.readRegister(REG_IRQ_FLAGS_MASK) | IRQ_RX_DONE_MASK)
-
-
-    # def dumpRegisters(self):
-        # for i in range(128):
-            # print("0x{0:02x}: {1:02x}".format(i, self.readRegister(i)))
-
-
     def implicitHeaderMode(self, implicitHeaderMode = False):
         if self._implicitHeaderMode != implicitHeaderMode:  # set value only if different.
             self._implicitHeaderMode = implicitHeaderMode
@@ -330,40 +316,12 @@ class SX127x:
         self.collect_garbage()
         return True
 
-#        self.acquire_lock(True)              # lock until TX_Done
-#
-#        irqFlags = self.readRegister(REG_IRQ_FLAGS) # should be 0x50
-#        self.writeRegister(REG_IRQ_FLAGS, irqFlags)
-#
-#        if (irqFlags & IRQ_RX_DONE_MASK) == 0: # check `RxDone`
-#            self.acquire_lock(False)
-#            return # `RxDone` is not set
-#
-#        # check `PayloadCrcError` bit
-#        crcOk = not bool (irqFlags & IRQ_PAYLOAD_CRC_ERROR_MASK)
-#
-#        # set FIFO address to current RX address
-#        self.writeRegister(REG_FIFO_ADDR_PTR, self.readRegister(REG_FIFO_RX_CURRENT_ADDR))
-#
-#        if self._onReceive:
-#            payload = self.read_payload()
-#            print(payload)
-#            self.acquire_lock(False)     # unlock when done reading
-#
-#            self._onReceive(self, payload)
-#
-#        self.acquire_lock(False)             # unlock in any case.
-
 
     def receivedPacket(self, size = 0):
         irqFlags = self.getIrqFlags()
 
         self.implicitHeaderMode(size > 0)
         if size > 0: self.writeRegister(REG_PAYLOAD_LENGTH, size & 0xff)
-
-        # if (irqFlags & IRQ_RX_DONE_MASK) and \
-           # (irqFlags & IRQ_RX_TIME_OUT_MASK == 0) and \
-           # (irqFlags & IRQ_PAYLOAD_CRC_ERROR_MASK == 0):
 
         if (irqFlags == IRQ_RX_DONE_MASK):  # RX_DONE only, irqFlags should be 0x40
             # automatically standby when RX_DONE

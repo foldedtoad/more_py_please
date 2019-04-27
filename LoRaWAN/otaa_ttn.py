@@ -1,6 +1,5 @@
-#!/usr/bin/env python3
 import sys
-from time import sleep
+import time
 from SX127x.LoRa import *
 from SX127x.LoRaArgumentParser import LoRaArgumentParser
 from SX127x.board_config import BOARD
@@ -56,7 +55,7 @@ class LoRaWANotaa(LoRa):
         self.write_payload(lorawan.to_raw())
         self.set_mode(MODE.TX)
         while True:
-            sleep(1)
+            sleep_ms(1000)
 
 
 # Init
@@ -69,7 +68,7 @@ lora = LoRaWANotaa(False)
 # Setup
 lora.set_mode(MODE.SLEEP)
 lora.set_dio_mapping([1,0,0,0,0,0])
-lora.set_freq(868.1)
+lora.set_freq(915.0)
 lora.set_pa_config(pa_select=1)
 lora.set_spreading_factor(7)
 lora.set_pa_config(max_power=0x0F, output_power=0x0E)
